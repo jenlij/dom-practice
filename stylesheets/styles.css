@@ -90,23 +90,23 @@ a {
   font-size: 18px;
 }
 
-.detail-image-container {
+.large-image-container {
   flex: 1 1 auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.detail-image-frame {
+.large-image-frame {
   position: relative;
   text-align: center;
 }
 
-.detail-image {
+.large-image {
   width: 90%;
 }
 
-.detail-image-title {
+.large-image-title {
   position: absolute;
   bottom: -16px;
   left: 4px;
