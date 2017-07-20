@@ -36,3 +36,19 @@ body {
     align-self: center;
 
 }
+
+.reprint-header {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 20px; 
+}
+
+.reprint {
+    align-self: center;
+    width: 500px; 
+}
+#myList {
+    font-family: sans-serif;
+    font-size: 15px;
+    text-align: center;
+}

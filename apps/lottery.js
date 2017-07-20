@@ -57,6 +57,20 @@ function printValues(arr, slots) {
     }
 }
 
+//join array
+function arrayToString(arr) {
+    return arr.join(' ');
+}
+
+//print to saved ticket sectiojn
+function printList(arr) {
+    var newLi = document.createElement('li');
+    var newtext = document.createTextNode(arrayToString(arr));
+    newLi.appendChild(newtext);
+    var position = document.getElementById('myList');
+    position.appendChild(newLi);
+}
+
 //putting it all together
 function putItAllTogether() {
     var firstFive = [];
@@ -66,6 +80,7 @@ function putItAllTogether() {
     var fullArray = appendArrays(firstSection, lastSection);
     var valSlots = getSlots();
     printValues(fullArray, valSlots);
+    printList(fullArray);
 }
 
 
