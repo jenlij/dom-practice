@@ -1,14 +1,3 @@
-// //make array of numbers from 0 to n-1
-// function makeRange(n) {
-//     return Array.apply(null, {length: n}).map(Number.call, Number);    
-// }
-// //values allowed for first 5 spots
-// var firstFiveOptions = makeRange(70);
-// firstFiveOptions.shift(); //removes 0
-
-// //values allowed for last spot
-// var lastOption = makeRange(27);
-// lastOption.shift(); //removes 0
 
 //random number generator
 function makeRandomInt(max) {
@@ -45,15 +34,15 @@ function appendArrays(arr1, arr2) {
 
 //gets empty number slots
 function getSlots() {
-    return document.querySelectorAll('[data-attribute="num-placeholder"]')
+    return $('[data-attribute="num-placeholder"]');
 }
 
 
 //prints value in number slot
-function printValues(arr, slots) {
-    for (var i = 0; i < arr.length; i++) {
-        slots[i].textContent = arr[i];
-    }
+function printValues(arr, $slots) {
+    $slots.each(function(i){
+        $(this).text(arr[i]);
+    });
 }
 
 //join array
@@ -61,13 +50,12 @@ function arrayToString(arr) {
     return arr.join(' ');
 }
 
-//print to saved ticket sectiojn
+//print to saved ticket section
 function printList(arr) {
-    var newLi = document.createElement('li');
-    var newtext = document.createTextNode(arrayToString(arr));
-    newLi.appendChild(newtext);
-    var position = document.getElementById('myList');
-    position.appendChild(newLi);
+    var $newLi = $('<li></li>');
+    $newLi.append(arrayToString(arr));
+    var $position = $('#myList');
+    $position.append($newLi);
 }
 
 //putting it all together
@@ -77,12 +65,12 @@ function putItAllTogether() {
     var firstSection = fillArray(firstFive, 5, 69);
     var lastSection = fillArray(lastOne, 1, 26);
     var fullArray = appendArrays(firstSection, lastSection);
-    var valSlots = getSlots();
-    printValues(fullArray, valSlots);
+    var $valSlots = getSlots();
+    printValues(fullArray, $valSlots);
     printList(fullArray);
 }
 
 
 //event listener for button click
-var getLotto = document.querySelector('[data-attribute="button"]');
-getLotto.addEventListener('click', putItAllTogether, false);
+var $getLotto = $('[data-attribute="button"]');
+$getLotto.on('click', putItAllTogether);
