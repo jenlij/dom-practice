@@ -10,6 +10,10 @@ html, body {
     border: 2px solid black;
     min-width: 148px;
     height: 100%;
+    transition: 0.75s ease-in-out;
+    position:relative;
+    /* transform: translateX(-80%); */
+    transform: translateX(calc(-100% + 45px));
 }
 .navigation {
     display: flex;
@@ -22,13 +26,12 @@ a {
     font-size: 20px;
 }
 
-
 .bun {
-
     margin: 12px;
-
 }
 
-.shift {
-    
+.open {
+    transform: translateX(0%);
 }
+
+
