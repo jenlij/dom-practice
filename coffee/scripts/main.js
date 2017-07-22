@@ -4,16 +4,17 @@ $(document).ready(function(){
     $theForm.submit(function() {
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
-        getFromLocalStorage('myOrder');
+        console.log(getFromLocalStorage('myOrder'));
         event.preventDefault();
     });
-    //before reset
-    window.onbeforeunload = function() {
+    //before refresh
+    window.onbeforeunload = function(event) {
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
+        return "refresh"
     }
     //after refresh page
-    window.onload= function() {
+    window.onload= function(event) {
         var myOrder = formatData($theForm);
         autofill(myOrder)
     }
@@ -22,7 +23,7 @@ $(document).ready(function(){
 function saveToLocalStorage(arr, orderName) {
     localStorage.setItem(orderName, JSON.stringify(arr));  
 }
-
+//this isn't working
 function getFromLocalStorage(orderName) {
     return JSON.parse(localStorage.getItem(orderName));
 }
