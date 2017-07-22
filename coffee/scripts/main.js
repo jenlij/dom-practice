@@ -4,33 +4,29 @@ $(document).ready(function(){
     $theForm.submit(function() {
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
-        console.log(getFromLocalStorage('myOrder'));
+        //console.log(getFromLocalStorage('myOrder'));
         event.preventDefault();
     });
     //before refresh
     window.onbeforeunload = function(event) {
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
-        return "refresh"
     }
     //after refresh page
     window.onload= function(event) {
-        var myOrder = formatData($theForm);
-        autofill(myOrder)
+        var order = getFromLocalStorage('myOrder');
+        console.log(order['coffee']);
     }
 });
 
 function saveToLocalStorage(arr, orderName) {
     localStorage.setItem(orderName, JSON.stringify(arr));  
 }
-//this isn't working
+
 function getFromLocalStorage(orderName) {
     return JSON.parse(localStorage.getItem(orderName));
 }
 
-function autofill(orderName) {
-    
-}
 
 function allOrders() {
 
