@@ -13,12 +13,12 @@ $(document).ready(function(){
         saveToLocalStorage(myOrder, 'myOrder');
     }
     //after refresh page
-    window.onload= function(event) {
+    window.addEventListener('load', function() {
         var order = getFromLocalStorage('myOrder');
-        console.log(order['coffee']);
-    }
+        $('#coffeeOrder').val(order['coffee']);
+         event.preventDefault();
+    });
 });
-
 function saveToLocalStorage(arr, orderName) {
     localStorage.setItem(orderName, JSON.stringify(arr));  
 }
@@ -39,3 +39,4 @@ function formatData(dataSource) {
     });
     return orderDictionary;
 }
+
