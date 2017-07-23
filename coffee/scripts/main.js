@@ -12,13 +12,19 @@ $(document).ready(function(){
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
     }
-    //after refresh page
-    window.addEventListener('load', function() {
+});
+
+//after refresh page
+window.onload = function() {
         var order = getFromLocalStorage('myOrder');
         $('#coffeeOrder').val(order['coffee']);
-         event.preventDefault();
-    });
-});
+        $('#emailInput').val(order['emailAddress']);
+        $('[name="size"]').val(order['size']);
+        $('#flavorShot').val(order['flavor']);
+        $('#strengthLevel').val(order['strength']);
+        
+}
+
 function saveToLocalStorage(arr, orderName) {
     localStorage.setItem(orderName, JSON.stringify(arr));  
 }
