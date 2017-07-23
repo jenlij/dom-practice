@@ -19,7 +19,7 @@ window.onload = function() {
         var order = getFromLocalStorage('myOrder');
         $('#coffeeOrder').val(order['coffee']);
         $('#emailInput').val(order['emailAddress']);
-        $('[name="size"]').val(order['size']);
+        // $('[name=size]').val(order['size']);
         $('#flavorShot').val(order['flavor']);
         $('#strengthLevel').val(order['strength']);
         
