@@ -6,6 +6,8 @@ $(document).ready(function(){
         saveToLocalStorage(myOrder, 'myOrder');
         //add function here to push to order queue
         addOrderToQueue(myOrder, 'orderQueue');
+        //print order queue
+        printOrderQueue('orderQueue');
         event.preventDefault();
     });
     //before refresh
@@ -58,6 +60,22 @@ function addOrderToQueue(myOrder, orderQueueName) {
 }
 
 //print order queue to order table
-function printOrderQueue(orderQueue) {
-
+function printOrderQueue(orderQueueName) {
+    var $table = $('[name=tableBody]');
+    var orderQueue = getFromLocalStorage(orderQueueName);
+    var $tr = $('<tr>');
+    var $email = '';
+    var $coffee = '';
+    var $size = '';
+    var $flavor = '';
+    var $strength = '';
+    Object.keys(orderQueue).forEach(function(key){
+        $email = $('<td>' + orderQueue[key]['emailAddress'] + '</td>');
+        $coffee = $('<td>' + orderQueue[key]['coffee'] + '</td>');
+        $size = $('<td>' + orderQueue[key]['size'] + '</td>');
+        $flavor = $('<td>' + orderQueue[key]['flavor'] + '</td>');
+        $strength = $('<td>' + orderQueue[key]['strength'] + '</td>');
+    });
+    $tr.append($email).append($coffee).append($size).append($flavor).append($strength);
+    $table.append($tr);
 }
