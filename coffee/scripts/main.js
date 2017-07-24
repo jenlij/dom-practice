@@ -4,7 +4,8 @@ $(document).ready(function(){
     $theForm.submit(function() {
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
-        //console.log(getFromLocalStorage('myOrder'));
+        //add function here to push to order queue
+        addOrderToQueue(myOrder, 'orderQueue');
         event.preventDefault();
     });
     //before refresh
@@ -34,9 +35,6 @@ function getFromLocalStorage(orderName) {
 }
 
 
-function allOrders() {
-
-}
 //gets order from form and creates dictionary
 function formatData(dataSource) {
     var orderDictionary = {};
@@ -46,3 +44,20 @@ function formatData(dataSource) {
     return orderDictionary;
 }
 
+
+//add submitted order to order queue
+function addOrderToQueue(myOrder, orderQueueName) {
+    if (getFromLocalStorage(orderQueueName) == null) {
+        var orderHolders = {};
+    }
+    else {
+        var orderHolders = getFromLocalStorage(orderQueueName);
+    }
+    orderHolders[myOrder['emailAddress']] = myOrder;
+    saveToLocalStorage(orderHolders, orderQueueName);
+}
+
+//print order queue to order table
+function printOrderQueue(orderQueue) {
+
+}
