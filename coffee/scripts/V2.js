@@ -12,7 +12,7 @@ $(document).ready(function(){
         sendDataToServer(URL, myOrder);
         //print order queue
         printMyOrder(myOrder);
-        
+        deleteSelected();
         event.preventDefault();
     });
     //before refresh
@@ -125,11 +125,16 @@ function sendDataToServer(URL, data) {
 
 //delete checked orders
 function deleteSelected() {
-    $('td input:checked').closest('tr').remove();
-    return $.ajax( {
-        url: URL + '/' + id,
-        method: 'DELETE'
-    }); 
+    $('#delete').click(function(){
+        $('td input:checked').closest('tr').remove();
+        $.each($('td input:checked'),function(index, item){
+            console.log(item.getAttribute('id'));
+        });
+        // return $.ajax( {
+        // url: URL + '/' + id,
+        // method: 'DELETE'
+        // }); 
+    });
 }
 
-//onclick delete selected button
+
