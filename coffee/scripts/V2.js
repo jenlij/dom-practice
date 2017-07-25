@@ -11,8 +11,8 @@ $(document).ready(function(){
         addOrderToQueue(myOrder, 'orderQueue');
         sendDataToServer(URL, myOrder);
         //print order queue
+        getServerData(URL, 'fromServer');
         printMyOrder(myOrder);
-        deleteSelected();
         event.preventDefault();
     });
     //before refresh
@@ -20,6 +20,16 @@ $(document).ready(function(){
         var myOrder = formatData($theForm);
         saveToLocalStorage(myOrder, 'myOrder');
     }
+    $('#delete').click(function(){
+        $.each($('td input:checked'),function(index, item){
+            removeOrderFromQueue('orderQueue', item.getAttribute('id')); 
+            $.ajax( {
+                url: URL + '/' + item.getAttribute('id'),
+                method: 'DELETE'
+            });
+            item.closest('tr').remove(); 
+        }); 
+    });   
 });
 
 //after refresh page
@@ -31,7 +41,7 @@ window.onload = function() {
     $('#flavorShot').val(order['flavor']);
     $('#strengthLevel').val(order['strength']);
     getServerData(URL, 'fromServer');
-    printOrderQueue('orderQueue');        
+    printOrderQueue('fromServer');        
 }
 
 function saveToLocalStorage(arr, orderName) {
@@ -41,7 +51,6 @@ function saveToLocalStorage(arr, orderName) {
 function getFromLocalStorage(orderName) {
     return JSON.parse(localStorage.getItem(orderName));
 }
-
 
 //gets order from form and creates dictionary
 function formatData(dataSource) {
@@ -65,6 +74,16 @@ function addOrderToQueue(myOrder, orderQueueName) {
     saveToLocalStorage(orderHolders, orderQueueName);
 }
 
+//removes item from local storage
+function removeOrderFromQueue(orderQueueName, orderId) {
+    console.log('HELP');
+    var orderQueueToModify = getFromLocalStorage(orderQueueName);
+    console.log(orderQueueToModify);
+    console.log(orderQueueToModify[orderId]);
+    delete orderQueueToModify[orderId];
+    saveToLocalStorage(orderQueueToModify, orderQueueName);
+}
+
 //print order queue to order table
 function printOrderQueue(orderQueueName) {
     var $table = $('[name=tableBody]');
@@ -77,12 +96,12 @@ function printOrderQueue(orderQueueName) {
     var $strength = '';
     Object.keys(orderQueue).forEach(function(key){
         $tr = $('<tr>');
-        $email = $('<td>' + myOrder['emailAddress'] + '</td>');
+        $email = $('<td>' + orderQueue[key]['emailAddress'] + '</td>');
         $coffee = $('<td>' + orderQueue[key]['coffee'] + '</td>');
         $size = $('<td>' + orderQueue[key]['size'] + '</td>');
         $flavor = $('<td>' + orderQueue[key]['flavor'] + '</td>');
         $strength = $('<td>' + orderQueue[key]['strength'] + '</td>');
-        $tr.append($('<td><input type="checkbox" id=' + myOrder['emailAddress'] + '></td>'));
+        $tr.append($('<td><input type="checkbox" id=' + orderQueue[key]['emailAddress'] + '></td>'));
         $tr.append($email).append($coffee).append($size).append($flavor).append($strength);
         $table.append($tr);
     });
@@ -125,15 +144,15 @@ function sendDataToServer(URL, data) {
 
 //delete checked orders
 function deleteSelected() {
-    $('#delete').click(function(){
+    return $('#delete').click(function(){
         $('td input:checked').closest('tr').remove();
         $.each($('td input:checked'),function(index, item){
-            console.log(item.getAttribute('id'));
-        });
-        // return $.ajax( {
-        // url: URL + '/' + id,
-        // method: 'DELETE'
-        // }); 
+            removeOrderFromQueue('orderQueue', item.getAttribute('id')); 
+            $.ajax( {
+                url: URL + '/' + item.getAttribute('id'),
+                method: 'DELETE'
+            }); 
+        }); 
     });
 }
 
