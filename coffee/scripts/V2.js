@@ -9,12 +9,11 @@ $(document).ready(function(){
         saveToLocalStorage(myOrder, 'myOrder');
         //add function here to push to order queue
         addOrderToQueue(myOrder, 'orderQueue');
-        
         sendDataToServer(URL, myOrder); 
-
+        //getServerData(URL, 'fromServer');
         //print order queue
         printMyOrder(myOrder);
-        getServerData(URL);
+        
         event.preventDefault();
     });
     //before refresh
@@ -32,6 +31,7 @@ window.onload = function() {
     $('#' + order['size']).prop('checked', true);
     $('#flavorShot').val(order['flavor']);
     $('#strengthLevel').val(order['strength']);
+    getServerData(URL, 'fromServer');
     printOrderQueue('orderQueue');        
 }
 
@@ -110,9 +110,9 @@ function printMyOrder(myOrder) {
 
 //This function should make an Ajax call to the server to retrieve the coffee orders.
 //Additionally, it could accept a callback function that is called when the server response comes in.
-function getServerData(URL) {
+function getServerData(URL, keyName) {
     $.get(URL, function (data) {
-        saveToLocalStorage(data, 'fromServer');
+        saveToLocalStorage(data, keyName);
     });
 }
 
