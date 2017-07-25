@@ -9,8 +9,7 @@ $(document).ready(function(){
         saveToLocalStorage(myOrder, 'myOrder');
         //add function here to push to order queue
         addOrderToQueue(myOrder, 'orderQueue');
-        sendDataToServer(URL, myOrder); 
-        //getServerData(URL, 'fromServer');
+        sendDataToServer(URL, myOrder);
         //print order queue
         printMyOrder(myOrder);
         
@@ -83,6 +82,7 @@ function printOrderQueue(orderQueueName) {
         $size = $('<td>' + orderQueue[key]['size'] + '</td>');
         $flavor = $('<td>' + orderQueue[key]['flavor'] + '</td>');
         $strength = $('<td>' + orderQueue[key]['strength'] + '</td>');
+        $tr.append($('<td><input type="checkbox" value=""></td>'));
         $tr.append($email).append($coffee).append($size).append($flavor).append($strength);
         $table.append($tr);
     });
@@ -102,6 +102,7 @@ function printMyOrder(myOrder) {
     $size = $('<td>' + myOrder['size'] + '</td>');
     $flavor = $('<td>' + myOrder['flavor'] + '</td>');
     $strength = $('<td>' + myOrder['strength'] + '</td>');
+    $tr.append($('<td><input type="checkbox" value=""></td>'));
     $tr.append($email).append($coffee).append($size).append($flavor).append($strength);
     $table.append($tr);
 }
@@ -111,12 +112,14 @@ function printMyOrder(myOrder) {
 //This function should make an Ajax call to the server to retrieve the coffee orders.
 //Additionally, it could accept a callback function that is called when the server response comes in.
 function getServerData(URL, keyName) {
-    $.get(URL, function (data) {
+    return $.get(URL, function (data) {
         saveToLocalStorage(data, keyName);
     });
 }
 
 //This function should make an Ajax call to the server, sending it coffee order information.
 function sendDataToServer(URL, data) {
-    $.post(URL, data, function(resp){console.log(resp);});
+    return $.post(URL, data, function(resp){console.log(resp);});
 }
+
+//
