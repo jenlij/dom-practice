@@ -9,10 +9,11 @@ $(document).ready(function(){
         saveToLocalStorage(myOrder, 'myOrder');
         //add function here to push to order queue
         addOrderToQueue(myOrder, 'orderQueue');
-        sendDataToServer(URL, myOrder);
-        //print order queue
-        getServerData(URL, 'fromServer');
-        printMyOrder(myOrder);
+        var sending = sendDataToServer(URL, myOrder);
+        sending.then(function(resp) {
+            printMyOrder(myOrder);
+            console.log(resp);
+        });
         event.preventDefault();
     });
     //before refresh
@@ -23,11 +24,14 @@ $(document).ready(function(){
     $('#delete').click(function(){
         $.each($('td input:checked'),function(index, item){
             removeOrderFromQueue('orderQueue', item.getAttribute('id')); 
-            $.ajax( {
+            var serverDelete = $.ajax( {
                 url: URL + '/' + item.getAttribute('id'),
                 method: 'DELETE'
             });
-            item.closest('tr').remove(); 
+            serverDelete.then(function(resp) {
+                item.closest('tr').remove();
+                console.log(resp);
+            }); 
         }); 
     });   
 });
@@ -40,8 +44,11 @@ window.onload = function() {
     $('#' + order['size']).prop('checked', true);
     $('#flavorShot').val(order['flavor']);
     $('#strengthLevel').val(order['strength']);
-    getServerData(URL, 'fromServer');
-    printOrderQueue('fromServer');        
+    addOrderToQueue(order, 'orderQueue');
+    getServerData(URL, 'fromServer')
+        .then(function() {
+            printOrderQueue('fromServer'); 
+        });              
 }
 
 function saveToLocalStorage(arr, orderName) {
@@ -138,7 +145,8 @@ function getServerData(URL, keyName) {
 
 //This function should make an Ajax call to the server, sending it coffee order information.
 function sendDataToServer(URL, data) {
-    return $.post(URL, data, function(resp){console.log(resp);});
+    // return $.post(URL, data, function(resp){console.log(resp);});
+    return $.post(URL, data);
 }
 
 
