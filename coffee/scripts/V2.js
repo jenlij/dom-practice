@@ -77,12 +77,12 @@ function printOrderQueue(orderQueueName) {
     var $strength = '';
     Object.keys(orderQueue).forEach(function(key){
         $tr = $('<tr>');
-        $email = $('<td>' + orderQueue[key]['emailAddress'] + '</td>');
+        $email = $('<td>' + myOrder['emailAddress'] + '</td>');
         $coffee = $('<td>' + orderQueue[key]['coffee'] + '</td>');
         $size = $('<td>' + orderQueue[key]['size'] + '</td>');
         $flavor = $('<td>' + orderQueue[key]['flavor'] + '</td>');
         $strength = $('<td>' + orderQueue[key]['strength'] + '</td>');
-        $tr.append($('<td><input type="checkbox" value=""></td>'));
+        $tr.append($('<td><input type="checkbox" id=' + myOrder['emailAddress'] + '></td>'));
         $tr.append($email).append($coffee).append($size).append($flavor).append($strength);
         $table.append($tr);
     });
@@ -102,7 +102,7 @@ function printMyOrder(myOrder) {
     $size = $('<td>' + myOrder['size'] + '</td>');
     $flavor = $('<td>' + myOrder['flavor'] + '</td>');
     $strength = $('<td>' + myOrder['strength'] + '</td>');
-    $tr.append($('<td><input type="checkbox" value=""></td>'));
+    $tr.append($('<td><input type="checkbox" id=' + myOrder['emailAddress'] + '></td>'));
     $tr.append($email).append($coffee).append($size).append($flavor).append($strength);
     $table.append($tr);
 }
@@ -122,4 +122,14 @@ function sendDataToServer(URL, data) {
     return $.post(URL, data, function(resp){console.log(resp);});
 }
 
-//
+
+//delete checked orders
+function deleteSelected() {
+    $('td input:checked').closest('tr').remove();
+    return $.ajax( {
+        url: URL + '/' + id,
+        method: 'DELETE'
+    }); 
+}
+
+//onclick delete selected button
